@@ -4,13 +4,15 @@
 \alias{qsur_models}
 \title{Load QSUR Models}
 \usage{
-qsur_models(harmonized_use)
+qsur_models()
 }
 \arguments{
 \item{harmonized_use}{name of model to use}
 }
 \description{
-Load list of all or a single QSUR model
+Import a named list of all 39 valid, structure-only QSUR models contained
+within this package. Names of the list are the harmonized use predicted by
+that randomForest object value in the named list.
 }
 \examples{
 qsur_models()

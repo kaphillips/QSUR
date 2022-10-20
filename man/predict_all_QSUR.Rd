@@ -16,7 +16,8 @@ predict_all_QSUR(models, df, type = "prob", chemical_id = "chemical_id")
 \item{model}{randomForest model object}
 }
 \description{
-Predict all 39 valid harmonized uses from a passed df of chemical ToxPrints
+Provides predictions of all 39 valid harmonized use QSUR model from a passed
+data frame of N chemicals with all 730 ToxPrints
 }
 \examples{
 predict_all_QSUR()

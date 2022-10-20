@@ -1,21 +1,9 @@
-#' Get valid QSUR model names
+#' Read ToxPrints finger print file
 #'
-#' Return a list of all valid structure-only QSUR models contained in package
-#' @export
-#' @examples
-#' valid_uses()
-
-valid_uses <- function(){
-    path <- list.files(path,pattern="*.rds",full.name=F)
-    uses <- unlist(lapply(path,trim))
-    return(uses)
-}
-
-
-
-#' Read ToxPrint file for prediction
-#'
-#' Read in ToxPrint file either from the ChemoTyper application or the CCD
+#' Import ToxPrint file from the ChemoTyper (`source="chemotyper"`) application
+#' or from a batch download originating from the EPA CompTox Chemicals Dashboard
+#' (`source="ccd"`) and return a tibble of the chemical identifier
+#' (`chemical_id`) and the 729 ToxPrints features.
 #' @param io path and name of file to read
 #' @param source either `chemotyper` or `ccd`
 #' @param chemical_id name of chemical_id used, default is `chemical_id`
@@ -43,16 +31,15 @@ read_toxprints <- function(io,source,chemical_id="chemical_id"){
 }
 
 
-
-
-
 #' Load QSUR Models
 #'
-#' Load list of all or a single QSUR model
+#' Import a named list of all 39 valid, structure-only QSUR models contained
+#' within this package. Names of the list are the harmonized use predicted by 
+#' that randomForest object value in the named list.
 #' @param harmonized_use name of model to use
 #' @export
 #' @examples
 #' qsur_models()
-qsur_models <- function(harmonized_use){
+qsur_models <- function(){
     return(QSUR:::qsurs)
 }

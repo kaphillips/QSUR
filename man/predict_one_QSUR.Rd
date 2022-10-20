@@ -16,7 +16,8 @@ predict_one_QSUR(model, df, type = "prob", chemical_id = "chemical_id")
 \item{chemical_id}{name of chemical_id used, default is \code{chemical_id}}
 }
 \description{
-Predict a single harmonized use from a passed df of chemical ToxPrints
+Provides predictions of a single harmonized use QSUR model from a passed data
+frame of N chemicals with all 730 ToxPrints
 }
 \examples{
 predict_one_QSUR()
