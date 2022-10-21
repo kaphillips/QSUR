@@ -25,7 +25,7 @@ read_toxprints <- function(io,source,chemical_id="chemical_id"){
 
     ## Now, there can be ToxPrints that are either NULL or that have all 0
     ## values for a substance. Warn the user that these are being removed.
-    toxps <- colnames(ext_val)[which(!colnames(ext_val) %in% c('chemical_id'))]
+    toxps <- colnames(df)[which(!colnames(df) %in% c('chemical_id'))]
     attr(df,'toxprints') <- toxps
     return(df)
 }
@@ -34,7 +34,7 @@ read_toxprints <- function(io,source,chemical_id="chemical_id"){
 #' Load QSUR Models
 #'
 #' Import a named list of all 39 valid, structure-only QSUR models contained
-#' within this package. Names of the list are the harmonized use predicted by 
+#' within this package. Names of the list are the harmonized use predicted by
 #' that randomForest object value in the named list.
 #' @param harmonized_use name of model to use
 #' @export
