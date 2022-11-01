@@ -11,13 +11,15 @@
 #' @examples
 #' read_toxprintsl()
 
-read_toxprints <- function(io,source,chemical_id="chemical_id"){
+read_toxprints <- function(io,source,chemical_id=NULL){
     if (source == "chemotyper") {
+        if is.null(chemical_id){ chemical_id <- "M_NAME"}
         df <- readr::read_tsv(io)
-        df <- dplyr::rename(df,{{chemical_id}}:="M_NAME")
+        df <- dplyr::rename(df,{{chemical_id}}:=chemical_id)
     } else if (source == "ccd") {
+        if is.null(chemical_id){chemical_id <- "INPUT"}
         df <- readr::read_csv(io)
-        df <- dplyr::rename(df,{{chemical_id}}:="INPUT")
+        df <- dplyr::rename(df,{{chemical_id}}:=chemical_id)
     }
     ## The models were built using standard data.frames, but tibbles don't
     ## conver the column names, so force it
