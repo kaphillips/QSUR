@@ -91,7 +91,7 @@ in_domain <- function(df,models,chemical_id='chemical_id',method="jaccard"){
     toxps <- attr(df,'toxprints')
 
     ## Get the original training set
-    training <- QSUR:::qsurs_train
+    training <- QSUR:::fuse
 
     ## The distance/similarity cutoffs for each harmonized_use
     d_cuts <- QSUR:::d_cut
