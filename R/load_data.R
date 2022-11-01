@@ -11,22 +11,52 @@
 #' @examples
 #' read_toxprintsl()
 
-read_toxprints <- function(io,source){
+read_toxprints <- function(io,source,chemical_id=NULL){
+
     if (source == "chemotyper") {
+        ## ChemoTyper: tsv file, empty ToxPrints are all 0 values, chemical
+        ## identifier colunm is only `M_NAME`
         df <- readr::read_tsv(io)
+
+        if (is.null(chemical_id)){chemical_id="chemical_id"}
         df <- dplyr::rename(df,{{chemical_id}}:="M_NAME")
+
     } else if (source == "ccd") {
-        df <- readr::read_csv(io)
-        df <- dplyr::rename(df,{{chemical_id}}:="INPUT")
+        ## CCD: csv file, empty ToxPrints have N/A as first ToxPrint and are
+        ## blank for the rest, multiple chemical identifier columns possible
+        df <- readr::read_csv(io,na=c("","NA",'N/A'))
+
+
+        idx <- which(!(colnames(df) %in% toxprint_names))
+
+        ## Lower case the chemical id columns
+        colnames(df)[idx] <- tolower(colnames(df)[idx])
+
+        ## Throw and error if the chemical_id is not in the id columns
+        if (!(chemical_id %in% colnames(df))){
+            stop(paste0("Error! `",chemical_id,"` not in df column names."))
+        }
+
+        ## Keep only the desired ID column and the ToxPrint columns
+        cols <- c(chemical_id,toxprint_names)
+        df <- df[which(colnames(df) %in% cols)]
+
+        ## Get rid of the problem childres -- that is the rows that have no
+        ## ToxPrints
+        problems <- as.integer(dim(df[is.na(df['atom:element_main_group']),])[1])
+        df <- df[!is.na(df['atom:element_main_group']),]
     }
+
     ## The models were built using standard data.frames, but tibbles don't
-    ## conver the column names, so force it
+    ## convert the column names, so force it because you'll need these names
+    ## when predicting later
     colnames(df) <- colnames(data.frame(df))
+    toxps <- colnames(df)[which(!colnames(df) %in% c('chemical_id'))]
+    attr(df,'toxprints') <- toxps
 
     ## Now, there can be ToxPrints that are either NULL or that have all 0
     ## values for a substance. Warn the user that these are being removed.
-    toxps <- colnames(df)[which(!colnames(df) %in% c('chemical_id'))]
-    attr(df,'toxprints') <- toxps
+
     return(df)
 }
 
