@@ -51,8 +51,6 @@ read_toxprints <- function(io,source,chemical_id=NULL){
     ## convert the column names, so force it because you'll need these names
     ## when predicting later
     colnames(df) <- colnames(data.frame(df))
-    toxps <- colnames(df)[which(!colnames(df) %in% c('chemical_id'))]
-    attr(df,'toxprints') <- toxps
 
     ## Now, there can be ToxPrints that are either NULL or that have all 0
     ## values for a substance. Warn the user that these are being removed.

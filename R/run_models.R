@@ -88,7 +88,7 @@ predict_all_QSUR <- function(models,df,type='prob',chemical_id='chemical_id'){
 in_domain <- function(models,df,chemical_id='chemical_id',method="jaccard"){
 
     ## The names data.frame assigned to ToxPrints when I first build the models
-    toxps <- attr(df,'toxprints')
+    toxps <- tail(colnames(as.data.frame(df)),n=-1)
 
     ## Get the original training set
     training <- QSUR:::fuse
