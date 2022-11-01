@@ -26,8 +26,8 @@ read_toxprints <- function(io,source,chemical_id=NULL){
         ## blank for the rest, multiple chemical identifier columns possible
         df <- readr::read_csv(io,na=c("","NA",'N/A'))
 
-
-        idx <- which(!(colnames(df) %in% toxprint_names))
+        tp <- QSUR:::toxprints
+        idx <- which(!(colnames(df) %in% tp))
 
         ## Lower case the chemical id columns
         colnames(df)[idx] <- tolower(colnames(df)[idx])
@@ -38,7 +38,7 @@ read_toxprints <- function(io,source,chemical_id=NULL){
         }
 
         ## Keep only the desired ID column and the ToxPrint columns
-        cols <- c(chemical_id,toxprint_names)
+        cols <- c(chemical_id,tp)
         df <- df[which(colnames(df) %in% cols)]
 
         ## Get rid of the problem childres -- that is the rows that have no

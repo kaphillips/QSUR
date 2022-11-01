@@ -77,15 +77,15 @@ predict_all_QSUR <- function(models,df,type='prob',chemical_id='chemical_id'){
 #'   and virtual screening, A. Tropsha and A. Golbraikh, Curr. Pharm. Design,
 #'   13 (2007), 3494 -- 3504.
 #'
-#' @param df ToxPrint DataFrame of chemicals to predict
 #' @param models list of models, or "classes", for which to determine domain
+#' @param df ToxPrint DataFrame of chemicals to predict
 #' @param sim_cut NULL or float. If NULL, use stored values calculated for a
 #' similarity threshold of 0.5, if float fraction from 0 to 1 for how similar
 #' records should be, default=NULL
 #' @param method distance metric to use for similarity calculation
 #' @export
 
-in_domain <- function(df,models,chemical_id='chemical_id',method="jaccard"){
+in_domain <- function(models,df,chemical_id='chemical_id',method="jaccard"){
 
     ## The names data.frame assigned to ToxPrints when I first build the models
     toxps <- attr(df,'toxprints')
@@ -94,7 +94,7 @@ in_domain <- function(df,models,chemical_id='chemical_id',method="jaccard"){
     training <- QSUR:::fuse
 
     ## The distance/similarity cutoffs for each harmonized_use
-    d_cuts <- QSUR:::d_cut
+    d_cuts <- QSUR:::d_cuts
 
     ## Initialize tibble to store domain app info
     domain <- tibble::tibble({{chemical_id}}:=df[[chemical_id]])
